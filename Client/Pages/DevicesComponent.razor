@@ -1,0 +1,46 @@
+﻿@page "/"
+@inject DeviceService DeviceService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@foreach (var device in Devices)
+{
+    <div @key="@device.Id" class="device">
+        <div class="name">
+            <span class="caption">デバイス名</span>
+            <span class="value">@device.Name</span>
+        </div>
+        <div class="mac-address">
+            <span class="caption">MACアドレス</span>
+            <span class="value">@device.MACAddress</span>
+        </div>
+        <div class="actions">
+            <button class="button wakeup-button" @onclick="() => OnClickWakeup(device)">電源ON</button>
+            <button class=" button edit-button" @onclick="() => OnClickEdit(device)">編集</button>
+        </div>
+    </div>
+}
+
+<div>
+    <a class="button" href="/addnew">デバイスの追加</a>
+</div>
+
+@code {
+    IEnumerable<Device> Devices = new Device[0];
+
+    protected override async Task OnInitializedAsync()
+    {
+        Devices = await DeviceService.GetDevicesAsync();
+    }
+
+    void OnClickEdit(Device device)
+    {
+        NavigationManager.NavigateTo($"/edit/{device.Id}");
+    }
+
+    async Task OnClickWakeup(Device device)
+    {
+        await DeviceService.WakeupAsync(device.Id);
+        await JSRuntime.InvokeAsync<object>("alert", "マジックパケットを送信しました。");
+    }
+}

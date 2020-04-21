@@ -1,0 +1,50 @@
+﻿@page "/edit/{DeviceId:guid}"
+@inject DeviceService DeviceService
+@inject NavigationManager NavigationManager
+
+@if (initialized == true)
+{
+    @if (Item != null)
+    {
+        <DeviceForm Item="Item" OnClickOK="OnClickOK" OnClickDelete="OnClickDelete"></DeviceForm>
+    }
+    else
+    {
+        <p class="error-message">デバイス情報が見つかりません。</p>
+    }
+}
+
+@code {
+    [Parameter]
+    public Guid DeviceId { get; set; }
+
+    bool initialized = false;
+
+    Device Item;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var device = await DeviceService.GetDeviceAsync(DeviceId);
+        if (device != null)
+        {
+            Item = new Device
+            {
+                Name = device.Name,
+                MACAddress = device.MACAddress
+            };
+        }
+        initialized = true;
+    }
+
+    async Task OnClickOK(Device editedDevice)
+    {
+        await DeviceService.UpdateDeviceAsync(DeviceId, editedDevice);
+        NavigationManager.NavigateTo("/");
+    }
+
+    async Task OnClickDelete()
+    {
+        await DeviceService.DeleteDeviceAsync(DeviceId);
+        NavigationManager.NavigateTo("/");
+    }
+}
