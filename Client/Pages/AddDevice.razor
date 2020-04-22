@@ -8,6 +8,6 @@
     async Task OnClickOK(Device newDevice)
     {
         await DeviceService.AddDeviceAsync(newDevice);
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo(NavigationManager.BaseUri);
     }
 }

@@ -22,7 +22,7 @@
 }
 
 <div>
-    <a class="button" href="/addnew">デバイスの追加</a>
+    <a class="button" href="@(NavigationManager.BaseUri)addnew">デバイスの追加</a>
 </div>
 
 @code {
@@ -35,7 +35,7 @@
 
     void OnClickEdit(Device device)
     {
-        NavigationManager.NavigateTo($"/edit/{device.Id}");
+        NavigationManager.NavigateTo(NavigationManager.BaseUri + $"edit/{device.Id}");
     }
 
     async Task OnClickWakeup(Device device)

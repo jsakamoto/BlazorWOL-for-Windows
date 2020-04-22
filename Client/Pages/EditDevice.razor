@@ -39,12 +39,12 @@
     async Task OnClickOK(Device editedDevice)
     {
         await DeviceService.UpdateDeviceAsync(DeviceId, editedDevice);
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo(NavigationManager.BaseUri);
     }
 
     async Task OnClickDelete()
     {
         await DeviceService.DeleteDeviceAsync(DeviceId);
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo(NavigationManager.BaseUri);
     }
 }

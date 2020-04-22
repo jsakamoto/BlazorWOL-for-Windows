@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 <div class="device">
     <EditForm Model="Item" OnValidSubmit="OnOK">
@@ -26,7 +27,7 @@
                 <button class="button delete-button" type="button" @onclick="OnDelete">削除</button>
             }
             <button class="button">OK</button>
-            <a class="button" href="/">キャンセル</a>
+            <a class="button" href="@(NavigationManager.BaseUri)">キャンセル</a>
         </div>
     </EditForm>
 </div>
