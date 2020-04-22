@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>1.0.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,5 +20,13 @@
     <None Remove="**\.gitkeep" />
     <Folder Include="Controllers\" />
   </ItemGroup>
+
+  <Target Name="MakeZipPackage" AfterTargets="AfterPublish">
+    <MakeDir Directories="$(ProjectDir)..\_release" />
+    <ZipDirectory
+      SourceDirectory="$(ProjectDir)$(publishUrl)"
+      DestinationFile="$(ProjectDir)..\_release\$(AssemblyName)-v.$(Version).zip"
+      Overwrite="true" />
+  </Target>
 
 </Project>
