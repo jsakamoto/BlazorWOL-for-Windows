@@ -39,11 +39,11 @@ namespace BlazorWOL.Server.Internals
             Process.Start(startInfo).WaitForExit();
         }
 
-        public static void RegisterToWindowsService(string serviceName, string displaName, string description, StartUp startUp = StartUp.Auto)
+        public static void RegisterToWindowsService(string serviceName, string displaName, string description, string[] args, StartUp startUp = StartUp.Auto)
         {
             if (!IsAdministrator)
             {
-                RunAsAdmin(ExecutableFilePath, "install");
+                RunAsAdmin(ExecutableFilePath, args);
                 return;
             }
 
@@ -55,9 +55,10 @@ namespace BlazorWOL.Server.Internals
                 _ => throw new Exception()
             };
 
+            var binPath = new[] { $"\"{ExecutableFilePath}\"", "--service", "true" }.Concat(args.Where(arg => arg != "install"));
             Run("sc", "create",
                 serviceName,
-                "binpath=", $"\"{ExecutableFilePath}\" --service",
+                "binpath=", string.Join(" ", binPath),
                 "start=", startupText,
                 "displayname=", displaName
             );

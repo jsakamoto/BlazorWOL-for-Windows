@@ -19,17 +19,17 @@ namespace BlazorWOL.Server
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-            if (Enumerable.SequenceEqual(args, new[] { "install" }))
+            if (args.Contains("install"))
             {
-                WindowsServiceTool.RegisterToWindowsService(ServiceName, DisplayName, Description);
+                WindowsServiceTool.RegisterToWindowsService(ServiceName, DisplayName, Description, args);
             }
-            else if (Enumerable.SequenceEqual(args, new[] { "uninstall" }))
+            else if (args.SequenceEqual(new[] { "uninstall" }))
             {
                 WindowsServiceTool.UnregisterToWindowsService(ServiceName);
             }
             else
             {
-                var isWinSvcMode = args.Contains("--service");
+                var isWinSvcMode = Enumerable.Range(0, args.Length).Any(n => args.Skip(n).Take(2).SequenceEqual(new[] { "--service", "true" }));
                 var hostBuilder = CreateHostBuilder(args);
                 if (isWinSvcMode)
                 {

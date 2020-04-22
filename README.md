@@ -34,6 +34,12 @@ You can install this application as a Windows Service by `install` command, like
 
 Once after you did it, you can manage it from "Windows Service Management Console", such as start the service, and stop the service.
 
+You can also execute `install` command with command line options like this:
+
+```shell
+> BlazorWOL.Server install --urls http://+:8080/
+```
+
 If you want to remove it from Windows Service, you can do it with `uninstall` command, like this:
 
 ```shell
@@ -72,9 +78,12 @@ example:
 > Blazor WOL.Server --base-url /app/wol/
 ```
 
-## Configure command-line options when it's installed as a Windows Service
+## Change the command-line options after it's installed as a Windows Service
 
-You can configure command-line options for the Windows Service of this application by editing the Windows registry.
+As you know, you can configure command-line options for the Windows Service of this application when install time.
+
+
+And also, you can change it after it's installed by editing the Windows registry.
 
 Open registry key `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BlazorWOL` by Windows registry editor ("regedit"), and change `ImagePath` value.
 
